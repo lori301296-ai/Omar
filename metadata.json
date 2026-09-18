@@ -1,0 +1,6 @@
+{
+  "name": "Omar's Company",
+  "description": "Authentic travel experiences, safaris, and coastal adventures in Watamu, Kenya. Discover Kenya with Omar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

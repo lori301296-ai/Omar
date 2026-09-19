@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Camera, MapPin, Heart, ShieldCheck, Compass, MessageCircle, Instagram, Upload } from 'lucide-react';
+import React, { useState } from 'react';
+import { Camera, MapPin, Heart, ShieldCheck, Compass, MessageCircle, Instagram } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 import { getWhatsAppUrl, SITE_CONFIG } from '../data/siteConfig';
@@ -10,7 +10,6 @@ interface AboutOmarProps {
 
 export const AboutOmar: React.FC<AboutOmarProps> = ({ currentLang }) => {
   const t = translations[currentLang];
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string>(() => {
     try {
       const saved = localStorage.getItem('omar_original_photo');
@@ -20,50 +19,6 @@ export const AboutOmar: React.FC<AboutOmarProps> = ({ currentLang }) => {
     }
     return SITE_CONFIG.omarPhotoUrl;
   });
-  const [isDragOver, setIsDragOver] = useState(false);
-
-  const handleImageFile = (file: File) => {
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      if (dataUrl) {
-        setPhotoUrl(dataUrl);
-        try {
-          localStorage.setItem('omar_original_photo', dataUrl);
-        } catch (e) {
-          console.warn('Unable to persist to localStorage', e);
-        }
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      handleImageFile(file);
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      handleImageFile(file);
-    }
-  };
 
   return (
     <section id="about-omar" className="py-20 sm:py-28 bg-[#F7F4EC] relative overflow-hidden">
@@ -98,46 +53,8 @@ export const AboutOmar: React.FC<AboutOmarProps> = ({ currentLang }) => {
             {/* Omar's Real Portrait Photograph */}
             <div
               id="omar-photo-container"
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              className={`relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden border-2 shadow-xl group transition-all duration-300 ${
-                isDragOver ? 'border-[#25D366] ring-4 ring-[#25D366]/30 scale-[1.02]' : 'border-[#8A6045]/40'
-              }`}
+              className="relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden border-2 border-[#8A6045]/40 shadow-xl group"
             >
-              {/* Hidden file input for uploading the exact original image */}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileInputChange}
-              />
-
-              {/* Upload Original Photo Button Overlay */}
-              <button
-                type="button"
-                id="btn-upload-original-photo"
-                onClick={() => fileInputRef.current?.click()}
-                title={currentLang === 'it' ? 'Carica la foto originale di Omar dal dispositivo' : 'Upload original photo from device'}
-                className="absolute top-3 right-3 z-20 flex items-center space-x-1.5 bg-black/75 hover:bg-black/90 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-md border border-white/30 transition-all shadow-md cursor-pointer hover:scale-105 active:scale-95"
-              >
-                <Upload className="w-3.5 h-3.5 text-[#E8D5AD]" />
-                <span className="font-medium text-[11px] sm:text-xs">
-                  {currentLang === 'it' ? 'Carica foto originale' : 'Upload original'}
-                </span>
-              </button>
-
-              {/* Drag over overlay */}
-              {isDragOver && (
-                <div className="absolute inset-0 z-30 bg-[#18201B]/80 flex flex-col items-center justify-center text-[#F7F4EC] p-6 text-center backdrop-blur-xs">
-                  <Upload className="w-10 h-10 text-[#25D366] mb-2 animate-bounce" />
-                  <p className="text-sm font-semibold">
-                    {currentLang === 'it' ? 'Rilascia qui la foto originale' : 'Drop original photo here'}
-                  </p>
-                </div>
-              )}
-
               <img
                 id="about-omar-portrait"
                 src={photoUrl}

@@ -16,21 +16,21 @@ export const InclusionsSection: React.FC<InclusionsSectionProps> = ({ currentLan
       icon: Car,
       title: t.inclusions.transportTitle,
       description: t.inclusions.transportDesc,
-      tag: 'Watamu Departure',
+      tag: t.inclusions.transportTag,
     },
     {
       id: 'inclusion-lunch',
       icon: Utensils,
       title: t.inclusions.lunchTitle,
       description: t.inclusions.lunchDesc,
-      tag: 'Kenyan Cuisine',
+      tag: t.inclusions.lunchTag,
     },
     {
       id: 'inclusion-style',
       icon: Compass,
       title: t.inclusions.styleTitle,
       description: t.inclusions.styleDesc,
-      tag: 'Flexible Format',
+      tag: t.inclusions.styleTag,
     },
   ];
 
@@ -39,7 +39,7 @@ export const InclusionsSection: React.FC<InclusionsSectionProps> = ({ currentLan
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs uppercase tracking-[0.25em] text-[#8A6045] font-semibold block mb-2">
-            Quality Standard
+            {t.inclusions.badge}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#18201B]">
             {t.inclusions.title}

@@ -52,7 +52,9 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
             <div className="flex items-center space-x-2 text-xs text-white/60">
               <MapPin className="w-3.5 h-3.5 text-[#25D366]" />
-              <span>Watamu, Kilifi County, Kenya</span>
+              <span>
+                {currentLang === 'it' ? 'Watamu, Contea di Kilifi, Kenya' : 'Watamu, Kilifi County, Kenya'}
+              </span>
             </div>
           </div>
 
@@ -125,7 +127,9 @@ export const Footer: React.FC<FooterProps> = ({
               {t.footer.directContact}
             </h4>
             <p className="text-xs text-white/70">
-              For real-time availability and custom itineraries:
+              {currentLang === 'it'
+                ? 'Per disponibilità in tempo reale e itinerari su misura:'
+                : 'For real-time availability and custom itineraries:'}
             </p>
             <div className="flex flex-col space-y-2">
               <a
@@ -165,7 +169,7 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Language & Editorial Controls */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#E8D5AD]">
-              Language / Lingua
+              {currentLang === 'it' ? 'Lingua' : 'Language'}
             </h4>
             <div className="flex items-center space-x-2">
               <button

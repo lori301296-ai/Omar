@@ -1,5 +1,5 @@
-import React from 'react';
-import { Camera, MapPin, Heart, ShieldCheck, Compass, MessageCircle, Instagram } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Camera, MapPin, Heart, ShieldCheck, Compass, MessageCircle, Instagram, Upload } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 import { getWhatsAppUrl, SITE_CONFIG } from '../data/siteConfig';
@@ -10,7 +10,60 @@ interface AboutOmarProps {
 
 export const AboutOmar: React.FC<AboutOmarProps> = ({ currentLang }) => {
   const t = translations[currentLang];
-  const [photoUrl, setPhotoUrl] = React.useState<string>(SITE_CONFIG.omarPhotoUrl);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem('omar_original_photo');
+      if (saved) return saved;
+    } catch {
+      // ignore
+    }
+    return SITE_CONFIG.omarPhotoUrl;
+  });
+  const [isDragOver, setIsDragOver] = useState(false);
+
+  const handleImageFile = (file: File) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      if (dataUrl) {
+        setPhotoUrl(dataUrl);
+        try {
+          localStorage.setItem('omar_original_photo', dataUrl);
+        } catch (e) {
+          console.warn('Unable to persist to localStorage', e);
+        }
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageFile(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      handleImageFile(file);
+    }
+  };
 
   return (
     <section id="about-omar" className="py-20 sm:py-28 bg-[#F7F4EC] relative overflow-hidden">
@@ -31,7 +84,7 @@ export const AboutOmar: React.FC<AboutOmarProps> = ({ currentLang }) => {
                   {SITE_CONFIG.brandName}
                 </span>
                 <span className="text-xs text-[#8A6045] font-medium block">
-                  Watamu, Coast Region · Kenya 🇰🇪
+                  {currentLang === 'it' ? 'Watamu, Regione Costiera · Kenya 🇰🇪' : 'Watamu, Coast Region · Kenya 🇰🇪'}
                 </span>
                 <a
                   href={`mailto:${SITE_CONFIG.contact.email}`}
@@ -42,24 +95,62 @@ export const AboutOmar: React.FC<AboutOmarProps> = ({ currentLang }) => {
               </div>
             </div>
 
-            {/* Omar's Real Portrait Photograph at Sunset */}
+            {/* Omar's Real Portrait Photograph */}
             <div
               id="omar-photo-container"
-              className="relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden border-2 border-[#8A6045]/40 shadow-xl group"
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              className={`relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden border-2 shadow-xl group transition-all duration-300 ${
+                isDragOver ? 'border-[#25D366] ring-4 ring-[#25D366]/30 scale-[1.02]' : 'border-[#8A6045]/40'
+              }`}
             >
+              {/* Hidden file input for uploading the exact original image */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileInputChange}
+              />
+
+              {/* Upload Original Photo Button Overlay */}
+              <button
+                type="button"
+                id="btn-upload-original-photo"
+                onClick={() => fileInputRef.current?.click()}
+                title={currentLang === 'it' ? 'Carica la foto originale di Omar dal dispositivo' : 'Upload original photo from device'}
+                className="absolute top-3 right-3 z-20 flex items-center space-x-1.5 bg-black/75 hover:bg-black/90 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-md border border-white/30 transition-all shadow-md cursor-pointer hover:scale-105 active:scale-95"
+              >
+                <Upload className="w-3.5 h-3.5 text-[#E8D5AD]" />
+                <span className="font-medium text-[11px] sm:text-xs">
+                  {currentLang === 'it' ? 'Carica foto originale' : 'Upload original'}
+                </span>
+              </button>
+
+              {/* Drag over overlay */}
+              {isDragOver && (
+                <div className="absolute inset-0 z-30 bg-[#18201B]/80 flex flex-col items-center justify-center text-[#F7F4EC] p-6 text-center backdrop-blur-xs">
+                  <Upload className="w-10 h-10 text-[#25D366] mb-2 animate-bounce" />
+                  <p className="text-sm font-semibold">
+                    {currentLang === 'it' ? 'Rilascia qui la foto originale' : 'Drop original photo here'}
+                  </p>
+                </div>
+              )}
+
               <img
                 id="about-omar-portrait"
                 src={photoUrl}
-                alt="Omar - Watamu Kenya Tour Guide on the boat at sunset"
+                alt="Omar - Watamu Kenya Tour Guide"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
                 onError={() => {
-                  if (photoUrl === '/omar_gemini.jpg') {
-                    setPhotoUrl('/Omar gemini.jpg');
-                  } else if (photoUrl === '/Omar gemini.jpg') {
-                    setPhotoUrl('/omar.jpg');
-                  } else if (photoUrl === '/omar.jpg') {
-                    setPhotoUrl('/omar_sunset_portrait.jpg');
+                  if (photoUrl === '/b8476f50-600b-44aa-b186-9940dc22eb1f.jpeg') {
+                    setPhotoUrl('/omar_portrait.jpg');
+                  } else if (photoUrl === '/omar_portrait.jpg') {
+                    setPhotoUrl('/omar_sentrim.jpg');
+                  } else if (photoUrl === '/omar_sentrim.jpg') {
+                    setPhotoUrl('/omar_gemini.jpg');
                   }
                 }}
               />
@@ -70,7 +161,9 @@ export const AboutOmar: React.FC<AboutOmarProps> = ({ currentLang }) => {
               <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md py-2.5 px-4 rounded-xl border border-white/20 text-xs text-[#F7F4EC] flex items-center justify-between shadow-md">
                 <div className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
-                  <span className="font-medium">Omar · Watamu Guide</span>
+                  <span className="font-medium">
+                    {currentLang === 'it' ? 'Omar · Guida di Watamu' : 'Omar · Watamu Guide'}
+                  </span>
                 </div>
                 <span className="font-semibold text-[#E8D5AD] font-mono">{SITE_CONFIG.whatsApp.phoneDisplay}</span>
               </div>

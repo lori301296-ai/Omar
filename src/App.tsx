@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Language, Tour } from './types';
 import { toursData } from './data/toursData';
 import { galleryItems } from './data/galleryData';
@@ -23,6 +23,15 @@ export default function App() {
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedTourForQuote, setSelectedTourForQuote] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    document.documentElement.lang = currentLang;
+    if (currentLang === 'it') {
+      document.title = "Omar's Company | Tour e Safari Autentici in Kenya da Watamu";
+    } else {
+      document.title = "Omar's Company | Authentic Kenya Tours & Safaris in Watamu";
+    }
+  }, [currentLang]);
 
   const handleOpenQuoteModal = (tourId?: string) => {
     setSelectedTourForQuote(tourId);

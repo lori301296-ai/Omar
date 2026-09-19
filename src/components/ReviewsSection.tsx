@@ -25,7 +25,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ currentLang }) =
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Section Header */}
         <span className="text-xs uppercase tracking-[0.25em] text-[#8A6045] font-semibold block mb-2">
-          Traveller Feedback
+          {currentLang === 'it' ? 'Opinioni dei Viaggiatori' : 'Traveller Feedback'}
         </span>
         <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#18201B] tracking-tight mb-4">
           {t.reviews.title}

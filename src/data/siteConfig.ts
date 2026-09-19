@@ -46,7 +46,7 @@ export const SITE_CONFIG = {
       it: "Ciao Omar! Sono interessato a uno dei tuoi tour in Kenya. Potresti mandarmi maggiori informazioni?",
     },
   },
-  omarPhotoUrl: '/omar_gemini.jpg',
+  omarPhotoUrl: '/b8476f50-600b-44aa-b186-9940dc22eb1f.jpeg',
 
   /**
    * Google Reviews URL placeholder: [GOOGLE REVIEWS LINK]

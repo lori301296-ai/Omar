@@ -58,7 +58,7 @@ export const TourDetailModal: React.FC<TourDetailModalProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-[#18201B] via-black/40 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <span className="text-xs uppercase tracking-[0.25em] text-[#E8D5AD] font-semibold">
-              Watamu Experience
+              {currentLang === 'it' ? 'Esperienza a Watamu' : 'Watamu Experience'}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold mt-1 text-[#F7F4EC]">
               {tour.title[currentLang]}
@@ -107,7 +107,7 @@ export const TourDetailModal: React.FC<TourDetailModalProps> = ({
               <div className="bg-[#E8D5AD]/25 p-3 rounded-xl border border-[#8A6045]/15">
                 <div className="flex items-center space-x-1.5 text-[#8A6045] text-xs font-semibold uppercase tracking-wider mb-1">
                   <FileText className="w-3.5 h-3.5" />
-                  <span>Departure</span>
+                  <span>{currentLang === 'it' ? 'Partenza' : 'Departure'}</span>
                 </div>
                 <p className="font-bold text-sm text-[#18201B]">Watamu</p>
               </div>

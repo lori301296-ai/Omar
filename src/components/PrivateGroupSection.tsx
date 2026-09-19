@@ -23,7 +23,7 @@ export const PrivateGroupSection: React.FC<PrivateGroupSectionProps> = ({
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs uppercase tracking-[0.25em] text-[#E8D5AD] font-semibold block mb-2">
-            Tailored Journeys
+            {t.privateOrGroup.badge}
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight mb-4 text-[#F7F4EC]">
             {t.privateOrGroup.title}
@@ -47,7 +47,7 @@ export const PrivateGroupSection: React.FC<PrivateGroupSectionProps> = ({
               </div>
 
               <span className="text-xs uppercase tracking-[0.2em] text-[#E8D5AD] font-semibold block mb-1">
-                Bespoke Itinerary
+                {t.privateOrGroup.privateBadge}
               </span>
               <h3 className="font-serif text-3xl sm:text-4xl font-bold text-[#F7F4EC] mb-2">
                 {t.privateOrGroup.privateTitle}
@@ -60,18 +60,12 @@ export const PrivateGroupSection: React.FC<PrivateGroupSectionProps> = ({
               </p>
 
               <ul className="space-y-3 text-xs text-[#F7F4EC]/85">
-                <li className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-[#25D366] shrink-0" />
-                  <span>Dedicated private guide and custom schedule</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-[#25D366] shrink-0" />
-                  <span>Perfect for couples, photographers, and families</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-[#25D366] shrink-0" />
-                  <span>Door-to-door transportation from your Watamu stay</span>
-                </li>
+                {t.privateOrGroup.privateBullets.map((bullet, idx) => (
+                  <li key={idx} className="flex items-center space-x-2">
+                    <Check className="w-4 h-4 text-[#25D366] shrink-0" />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -99,7 +93,7 @@ export const PrivateGroupSection: React.FC<PrivateGroupSectionProps> = ({
               </div>
 
               <span className="text-xs uppercase tracking-[0.2em] text-[#E8D5AD] font-semibold block mb-1">
-                Shared Expeditions
+                {t.privateOrGroup.groupBadge}
               </span>
               <h3 className="font-serif text-3xl sm:text-4xl font-bold text-[#F7F4EC] mb-2">
                 {t.privateOrGroup.groupTitle}
@@ -112,18 +106,12 @@ export const PrivateGroupSection: React.FC<PrivateGroupSectionProps> = ({
               </p>
 
               <ul className="space-y-3 text-xs text-[#F7F4EC]/85">
-                <li className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-[#25D366] shrink-0" />
-                  <span>Small, engaging groups of international travellers</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-[#25D366] shrink-0" />
-                  <span>Shared costs and great social camaraderie</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-[#25D366] shrink-0" />
-                  <span>Guided by Omar and trusted local experts</span>
-                </li>
+                {t.privateOrGroup.groupBullets.map((bullet, idx) => (
+                  <li key={idx} className="flex items-center space-x-2">
+                    <Check className="w-4 h-4 text-[#25D366] shrink-0" />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 

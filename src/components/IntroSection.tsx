@@ -42,7 +42,7 @@ export const IntroSection: React.FC<IntroSectionProps> = ({ currentLang }) => {
         {/* Subtle Local Indicator */}
         <div className="mt-8 inline-flex items-center space-x-2 text-xs text-[#8A6045] font-medium tracking-wider uppercase">
           <span className="w-1.5 h-1.5 rounded-full bg-[#304C3A]" />
-          <span>{SITE_CONFIG.location.displayEn}</span>
+          <span>{currentLang === 'it' ? SITE_CONFIG.location.displayIt : SITE_CONFIG.location.displayEn}</span>
         </div>
       </div>
     </section>

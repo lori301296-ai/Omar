@@ -36,7 +36,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ items, currentLa
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-xs uppercase tracking-[0.25em] text-[#E8D5AD] font-semibold block mb-2">
-            Visual Stories
+            {currentLang === 'it' ? 'Racconti Visivi' : 'Visual Stories'}
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight mb-4 text-[#F7F4EC]">
             {t.gallery.title}

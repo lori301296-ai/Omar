@@ -24,7 +24,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         {/* Badge */}
         <div className="inline-flex items-center space-x-2 bg-[#E8D5AD]/10 border border-[#E8D5AD]/30 text-[#E8D5AD] px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-6">
           <MapPin className="w-3.5 h-3.5 text-[#25D366]" />
-          <span>{SITE_CONFIG.location.displayEn}</span>
+          <span>{currentLang === 'it' ? SITE_CONFIG.location.displayIt : SITE_CONFIG.location.displayEn}</span>
         </div>
 
         {/* Serif Headline */}
@@ -77,7 +77,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               {SITE_CONFIG.whatsApp.phoneDisplay}
             </p>
             <p className="text-[11px] text-white/50 mt-1">
-              Direct chat with Omar
+              {currentLang === 'it' ? 'Chat diretta con Omar' : 'Direct chat with Omar'}
             </p>
           </div>
 
@@ -87,7 +87,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               <Phone className="w-5 h-5" />
             </div>
             <span className="text-[10px] uppercase tracking-widest text-[#E8D5AD] font-semibold block mb-1">
-              Kenya Phone
+              {currentLang === 'it' ? 'Telefono Kenya' : 'Kenya Phone'}
             </span>
             <p className="font-mono text-xs text-[#F7F4EC] font-semibold">
               {SITE_CONFIG.contact.kenyaPhones[0].display}
@@ -112,7 +112,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               {SITE_CONFIG.contact.email}
             </a>
             <p className="text-[11px] text-white/50 mt-1">
-              Watamu, Kilifi County 🇰🇪
+              {currentLang === 'it' ? 'Watamu, Contea di Kilifi 🇰🇪' : 'Watamu, Kilifi County 🇰🇪'}
             </p>
           </div>
 
